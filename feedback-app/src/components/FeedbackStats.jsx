@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
+import { useContext } from 'react'
+import FeedbackContext from '../context/FeedbackContext'
 
 
-function FeedbackStats({feedback}) {
+function FeedbackStats() {
+  // calling this feedback below from the global feedback context , so we dont need feedback property or any proptyes to be declared in this page, since it is being called from the FeedackContext page
+  const {feedback} = useContext(FeedbackContext)
+
  // Calculate ratings average
     //using the reduce function, you can google it to know more...
     let average = feedback.reduce((acc, cur) => {
@@ -23,8 +28,11 @@ average = average.toFixed(1).replace(/[.,]0$/, '')
   )
 }
 
+{/* below was used before  a feedback context was made
+
 FeedbackStats.propTypes = {
     feedback: PropTypes.array.isRequired,
 }
+*/}
 
 export default FeedbackStats
