@@ -21,21 +21,19 @@ function FeedbackForm() {
     }
   }, [feedbackEdit])
 
-  const handleTextChange = (e) => {
-      if (text === '') {
-        setBtnDisabled(true)
-        setMessage(null)
-      } else if(text !== '' && text.trim().length <= 10) {
-        setMessage('Text must be atleast 10 characters')
+  const handleTextChange = ({ target: { value } }) => { // <--  gets the value
+    if (value === '') {
+      setBtnDisabled(true)
+      setMessage(null)
+      } else if (value.trim().length < 10) { // <-- checks for less than 10
+        setMessage('Text must be at least 10 characters')
         setBtnDisabled(true)
       } else {
         setMessage(null)
         setBtnDisabled(false)
       }
-
-
-      setText(e.target.value)
-  }
+      setText(value)
+    }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -53,6 +51,8 @@ function FeedbackForm() {
       addFeedback(newFeedback)
     }
       // the below is to reset the set to empty after a new feed is submitted
+      setBtnDisabled(true) // 👈   this line to reset disabled
+      setRating(10) //👈  this line to set rating back to 10
       setText('')
       
     }
@@ -63,7 +63,7 @@ function FeedbackForm() {
       <form onSubmit = {handleSubmit}>
           <h2>How would you rate your service with us ?</h2>
           
-          <RatingSelect select={(rating) => setRating(rating)} />
+          <RatingSelect select={setRating} selected={rating} />
 
 
           <div className="input-group">
